@@ -16,9 +16,9 @@ flexsliderを使用したWordPressのプラグインです。
 
 使用したjQueryプラグイン
 ------
-[link]: http://www.woothemes.com/flexslider/ "jQuery FlexSlider v2.0"
+[jQuery FlexSlider v2.0]: http://www.woothemes.com/flexslider/ "jQuery FlexSlider v2.0"
 
 ライセンス
 ------
 Copyright &copy; 2012 Eternal-tears.
-[link]: http://www.gnu.org/licenses/gpl-2.0.html "Free to use under the GPLv2 license."
+[GPLv2]: http://www.gnu.org/licenses/gpl-2.0.html "Free to use under the GPLv2 license."
