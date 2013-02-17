@@ -9,24 +9,7 @@
 
  jQuery's plugin by jQuery FlexSlider v2.0(http://www.woothemes.com/flexslider/)
  */
-
-class FlexSliderTextDomain {
-	
-	var $domain = 'gallerylist';
-	var $loaded = false;
-
-	function load() {
-		if ($this->loaded) {
-			return;
-		}
-		$locale = get_locale();
-		$mofile = dirname(__FILE__);
-		$mofile .= "/{$this->domain}-{$locale}.mo";
-		load_textdomain($this->domain, $mofile);
-		$this->loaded = true;
-	}
-}
-$flexslidergallerytextdomain = new FlexSliderTextDomain;
+load_plugin_textdomain( 'flexslidergallery', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 /* ==================================================
 ■ギャラリー画像専用の画像サイズ設定
@@ -239,7 +222,7 @@ function flexslidergallery_admin_page() {
 ?>
 <?php if($_POST['posted'] == 'Y') : ?><div class="updated"><p><strong>設定を保存しました</strong></p></div><?php endif; ?>
 <div class="wrap">
-	<h2>flexslidergalleryの設定</h2>
+	<h2><?php echo __( 'flexslidergalleryの設定', 'flexslidergallery' ); ?></h2>
 	<form method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 		<input type="hidden" name="posted" value="Y">
 		<table class="form-table">
