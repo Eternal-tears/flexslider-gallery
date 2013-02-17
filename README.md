@@ -23,5 +23,5 @@ flexsliderを使用したWordPressのプラグインです。
 ライセンス
 ------
 
-+ Copyright &copy; 2012 Eternal-tears.
++ Copyright &copy; 2012 <a href="http://lovelog.eternal-tears.com/" target="_blank">Eternal-tears</a>.
 + <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">Free to use under the GPLv2 license.</a>
