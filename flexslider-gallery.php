@@ -29,11 +29,11 @@ class FlexSliderTextDomain {
 $flexslidergallerytextdomain = new FlexSliderTextDomain;
 
 /* ==================================================
-■サムネイル画像
+■ギャラリー画像専用の画像サイズ設定
  ================================================== */
-add_image_size( 'single-post-thumbnail', 348, 348); // 個別投稿、個別の固定ページでのサムネイル
-add_image_size( 'top-post-thumbnail', 148, 148, true); // 個別投稿、個別の固定ページでのサムネイル
-add_image_size( 'thumbnail', 58, 58, true);
+add_image_size( 'single-post-thumbnail', 348, 348); //大画像設定
+add_image_size( 'top-post-thumbnail', 148, 148, true); // 中画像サイズ設定
+add_image_size( 'thumbnail', 58, 58, true);//ミニサムネイル画像設定
 
 /* ==================================================
 ■サムネイル画像とメイン画像の表示ソース
@@ -55,29 +55,37 @@ function flexslider_gallery_thumb() {
 	foreach ($images as $image) {
 		$thumnailimg = wp_get_attachment_metadata($image->ID);
 		$mainimg = wp_get_attachment_url($image->ID);
+
+		//画像の拡張子を抜き出す
 		$imgmimetype1 = str_replace ("image/","",$image->post_mime_type);
-		$imgmimetype2 = str_replace ("jpeg","jpg",$imgmimetype1);
-		$imgmimetype3 = str_replace ("jpg",".jpg",$imgmimetype2);
+			if($image->post_mime_type == "image/jpeg"){
+				$imgmimetype2 = str_replace ("jpeg","jpg",$imgmimetype1);
+			}
 
-		$upload_dir = wp_upload_dir();//http://shop.eternal-tears.jp/wp-content/uploads
+		//抜き出した拡張子の頭にドットを入れる
+		$imgmimetype3 = str_replace ($imgmimetype2,"." .$imgmimetype2,$imgmimetype2);
+		//wordpress/wp-content/uploadsまでのURL
+		$upload_dir = wp_upload_dir();
 
-		$mainsizew = $thumnailimg["width"];
-		$mainsizeh = $thumnailimg["height"];
-		$thumnailw = $thumnailimg["sizes"]["thumbnail"]["width"];
-		$thumnailh = $thumnailimg["sizes"]["thumbnail"]["height"];
+		//サムネイル画像のサイズ
+		$thumnailw = $thumnailimg["sizes"]["top-post-thumbnail"]["width"];
+		$thumnailh = $thumnailimg["sizes"]["top-post-thumbnail"]["height"];
 
+		//画像＋サムネイルサイズ.拡張子のサムネイルサイズ部分
 		$thumbnailimgsize = "-" . $thumnailw . "x" . $thumnailh .  "." . $imgmimetype2;
-		$mainimgmedium2 = str_replace ($thumbnailimgsize, $imgmimetype3, $thumnailimg["sizes"]["thumbnail"]["file"]);
-
+		//画像＋サムネイルサイズ.拡張子→画像.拡張子
+		$mainimgmedium2 = str_replace ($thumbnailimgsize, $imgmimetype3, $thumnailimg["sizes"]["top-post-thumbnail"]["file"]);
+		// wordpress/wp-content/uploads/【この部分のURL部分】/画像名
 		$upfiledir = str_replace ($mainimgmedium2, "", $thumnailimg["file"]);
 
-		$mainimgmedium = $upload_dir['baseurl']."/". $upfiledir .$thumnailimg["sizes"]["single-post-thumbnail"]["file"];
-		$thumnail_url = $upload_dir['baseurl']."/". $upfiledir .$thumnailimg["sizes"]["thumbnail"]["file"];
+		//サムネイル画像のURL
+		$thumnail_url = $upload_dir['baseurl']."/". $upfiledir .$thumnailimg["sizes"]["top-post-thumbnail"]["file"];
 
 //echo '<pre>';
 //var_dump($thumbnailimgsize);
 //echo '</pre>';
 
+		//サムネイル画像の表示部分
 		$flexslidergalleryoutput .= '<li>';
 		$flexslidergalleryoutput .= '<img';
 		$flexslidergalleryoutput .= ' src="' . esc_attr($thumnail_url) . '"';
@@ -89,12 +97,13 @@ function flexslider_gallery_thumb() {
 
 	if (!empty($flexslidergalleryoutput)) {
 		$flexslidergalleryoutput = '<ul class="slides">' . "\n"
-			  . $flexslidergalleryoutput
-			  . '</ul>' . "\n";
+			. $flexslidergalleryoutput
+			. '</ul>' . "\n";
 	}
 		echo $flexslidergalleryoutput;
 }
 
+//メイン画像
 function flexslider_gallery_main(){
 	global $post;
 
@@ -112,29 +121,38 @@ function flexslider_gallery_main(){
 	foreach ($images as $image) {
 		$thumnailimg = wp_get_attachment_metadata($image->ID);
 		$mainimg = wp_get_attachment_url($image->ID);
+
+		//画像の拡張子を抜き出す
 		$imgmimetype1 = str_replace ("image/","",$image->post_mime_type);
-		$imgmimetype2 = str_replace ("jpeg","jpg",$imgmimetype1);
-		$imgmimetype3 = str_replace ("jpg",".jpg",$imgmimetype2);
+			if($image->post_mime_type == "image/jpeg"){
+				$imgmimetype2 = str_replace ("jpeg","jpg",$imgmimetype1);
+			}
 
-		$upload_dir = wp_upload_dir();//http://shop.eternal-tears.jp/wp-content/uploads
+		//抜き出した拡張子の頭にドットを入れる
+		$imgmimetype3 = str_replace ($imgmimetype2,"." .$imgmimetype2,$imgmimetype2);
 
+		//wordpress/wp-content/uploadsまでのURL
+		$upload_dir = wp_upload_dir();
+
+		//メイン画像のサイズ
 		$mainsizew = $thumnailimg["sizes"]["single-post-thumbnail"]["width"];
 		$mainsizeh = $thumnailimg["sizes"]["single-post-thumbnail"]["height"];
+		//サムネイル画像のサイズ
 		$thumnailw = $thumnailimg["sizes"]["thumbnail"]["width"];
 		$thumnailh = $thumnailimg["sizes"]["thumbnail"]["height"];
 
+		//画像＋サムネイルサイズ.拡張子のサムネイルサイズ部分
 		$thumbnailimgsize = "-" . $thumnailw . "x" . $thumnailh . "." . $imgmimetype2;
+		//画像＋サムネイルサイズ.拡張子→画像.拡張子
 		$mainimgmedium2 = str_replace ($thumbnailimgsize, $imgmimetype3, $thumnailimg["sizes"]["thumbnail"]["file"]);
 
+		// wordpress/wp-content/uploads/【この部分のURL部分】/画像名
 		$upfiledir = str_replace ($mainimgmedium2, "", $thumnailimg["file"]);
 
+		//メイン画像のURL
 		$mainimgmedium = $upload_dir['baseurl']."/". $upfiledir .$thumnailimg["sizes"]["single-post-thumbnail"]["file"];
-		$thumnail_url = $upload_dir['baseurl']."/". $upfiledir .$thumnailimg["sizes"]["thumbnail"]["file"];
 
-//echo '<pre>';
-//var_dump($mainimgmedium);
-//echo '</pre>';
-
+		//メイン画像の表示部分
 		$flexslidergalleryoutput .= '<li>';
 		$flexslidergalleryoutput .= '<img';
 		$flexslidergalleryoutput .= ' src="' . esc_attr($mainimgmedium) . '"';
@@ -160,27 +178,11 @@ function flexslider_gallery_main(){
 function add_flexslider_gallery(){
 	global $post;
 	echo '<div class="itemimg">' . "\n";
-	echo '<div id="slider" class="flexslider">' . "\n";
-	flexslider_gallery_main($post->ID);
-	echo '</div>' . "\n";
-	echo '<div id="carousel" class="flexslider">' . "\n";
-	flexslider_gallery_thumb($post->ID);
-	echo '</div>' . "\n";
-	echo '</div>' . "\n";
-}
 
-
-/* ==================================================
-■ヘッダーにソース
- ================================================== */
-function add_flexslider_js() {
-echo '<script type="text/javascript" src="' . plugins_url( "js/jquery.flexslider-min.js" , __FILE__ ) . '"></script>' . "\n";
-echo '<script type="text/javascript" src="' . plugins_url( "js/flexslider-gallery-head.js" , __FILE__ ) . '"></script>' . "\n";
-echo '<link rel="stylesheet" href="' . plugins_url( "css/flexslider.css" , __FILE__ ) . '" type="text/css" media="screen" />' . "\n";
-}
-add_action('wp_head','add_flexslider_js');
-
-?>"\n";
+	if(get_option('flexslidergallery_slider')==1){
+		echo '<div id="slider" class="flexslider">' . "\n";
+		flexslider_gallery_main($post->ID);
+		echo '</div>' . "\n";
 		echo '<div id="carousel" class="flexslider">' . "\n";
 		flexslider_gallery_thumb($post->ID);
 		echo '</div>' . "\n";
