@@ -32,48 +32,22 @@ function flexslider_gallery_thumb() {
 		'post_mime_type' => 'image',
 		'orderby' => 'menu_order',
 		'order' => 'ASC',
-		'numberposts' => 999
+		'posts_per_page' => -1
 	));
 
 	foreach ($images as $image) {
-		$thumnailimg = wp_get_attachment_metadata($image->ID);
-		$mainimg = wp_get_attachment_url($image->ID);
-
-		//画像の拡張子を抜き出す
-		$imgmimetype1 = str_replace ("image/","",$image->post_mime_type);
-			if($image->post_mime_type == "image/jpeg"){
-				$imgmimetype2 = str_replace ("jpeg","jpg",$imgmimetype1);
-			}
-
-		//抜き出した拡張子の頭にドットを入れる
-		$imgmimetype3 = str_replace ($imgmimetype2,"." .$imgmimetype2,$imgmimetype2);
-		//wordpress/wp-content/uploadsまでのURL
-		$upload_dir = wp_upload_dir();
-
-		//サムネイル画像のサイズ
-		$thumnailw = $thumnailimg["sizes"]["top-post-thumbnail"]["width"];
-		$thumnailh = $thumnailimg["sizes"]["top-post-thumbnail"]["height"];
-
-		//画像＋サムネイルサイズ.拡張子のサムネイルサイズ部分
-		$thumbnailimgsize = "-" . $thumnailw . "x" . $thumnailh .  "." . $imgmimetype2;
-		//画像＋サムネイルサイズ.拡張子→画像.拡張子
-		$mainimgmedium2 = str_replace ($thumbnailimgsize, $imgmimetype3, $thumnailimg["sizes"]["top-post-thumbnail"]["file"]);
-		// wordpress/wp-content/uploads/【この部分のURL部分】/画像名
-		$upfiledir = str_replace ($mainimgmedium2, "", $thumnailimg["file"]);
-
-		//サムネイル画像のURL
-		$thumnail_url = $upload_dir['baseurl']."/". $upfiledir .$thumnailimg["sizes"]["top-post-thumbnail"]["file"];
+		$thumb_attributes = wp_get_attachment_image_src($image->ID,'top-post-thumbnail');
 
 //echo '<pre>';
-//var_dump($thumbnailimgsize);
+//var_dump($thumb_attributes);
 //echo '</pre>';
 
 		//サムネイル画像の表示部分
 		$flexslidergalleryoutput .= '<li>';
 		$flexslidergalleryoutput .= '<img';
-		$flexslidergalleryoutput .= ' src="' . esc_attr($thumnail_url) . '"';
-		$flexslidergalleryoutput .= ' width="' . esc_attr($thumnailw) . '"';
-		$flexslidergalleryoutput .= ' height="' . esc_attr($thumnailh) . '"';
+		$flexslidergalleryoutput .= ' src="' . esc_attr($thumb_attributes[0]) . '"';
+		$flexslidergalleryoutput .= ' width="' . esc_attr($thumb_attributes[1]) . '"';
+		$flexslidergalleryoutput .= ' height="' . esc_attr($thumb_attributes[2]) . '"';
 		$flexslidergalleryoutput .= ' /></li>' . "\n";
 
 	}
@@ -98,49 +72,18 @@ function flexslider_gallery_main(){
 		'post_mime_type' => 'image',
 		'orderby' => 'menu_order',
 		'order' => 'ASC',
-		'numberposts' => 999
+		'posts_per_page' => -1
 	));
 
 	foreach ($images as $image) {
-		$thumnailimg = wp_get_attachment_metadata($image->ID);
-		$mainimg = wp_get_attachment_url($image->ID);
-
-		//画像の拡張子を抜き出す
-		$imgmimetype1 = str_replace ("image/","",$image->post_mime_type);
-			if($image->post_mime_type == "image/jpeg"){
-				$imgmimetype2 = str_replace ("jpeg","jpg",$imgmimetype1);
-			}
-
-		//抜き出した拡張子の頭にドットを入れる
-		$imgmimetype3 = str_replace ($imgmimetype2,"." .$imgmimetype2,$imgmimetype2);
-
-		//wordpress/wp-content/uploadsまでのURL
-		$upload_dir = wp_upload_dir();
-
-		//メイン画像のサイズ
-		$mainsizew = $thumnailimg["sizes"]["single-post-thumbnail"]["width"];
-		$mainsizeh = $thumnailimg["sizes"]["single-post-thumbnail"]["height"];
-		//サムネイル画像のサイズ
-		$thumnailw = $thumnailimg["sizes"]["thumbnail"]["width"];
-		$thumnailh = $thumnailimg["sizes"]["thumbnail"]["height"];
-
-		//画像＋サムネイルサイズ.拡張子のサムネイルサイズ部分
-		$thumbnailimgsize = "-" . $thumnailw . "x" . $thumnailh . "." . $imgmimetype2;
-		//画像＋サムネイルサイズ.拡張子→画像.拡張子
-		$mainimgmedium2 = str_replace ($thumbnailimgsize, $imgmimetype3, $thumnailimg["sizes"]["thumbnail"]["file"]);
-
-		// wordpress/wp-content/uploads/【この部分のURL部分】/画像名
-		$upfiledir = str_replace ($mainimgmedium2, "", $thumnailimg["file"]);
-
-		//メイン画像のURL
-		$mainimgmedium = $upload_dir['baseurl']."/". $upfiledir .$thumnailimg["sizes"]["single-post-thumbnail"]["file"];
+		$mainimg_attributes = wp_get_attachment_image_src($image->ID,'single-post-thumbnail');
 
 		//メイン画像の表示部分
 		$flexslidergalleryoutput .= '<li>';
 		$flexslidergalleryoutput .= '<img';
-		$flexslidergalleryoutput .= ' src="' . esc_attr($mainimgmedium) . '"';
-		$flexslidergalleryoutput .= ' width="' . esc_attr($mainsizew) . '"';
-		$flexslidergalleryoutput .= ' height="' . esc_attr($mainsizeh) . '"';
+		$flexslidergalleryoutput .= ' src="' . esc_attr($mainimg_attributes[0]) . '"';
+		$flexslidergalleryoutput .= ' width="' . esc_attr($mainimg_attributes[1]) . '"';
+		$flexslidergalleryoutput .= ' height="' . esc_attr($mainimg_attributes[2]) . '"';
 		$flexslidergalleryoutput .= ' /></li>' . "\n";
 
 	}
@@ -181,19 +124,24 @@ function add_flexslider_gallery(){
 ■ヘッダーにソース
  ================================================== */
 function add_flexslider_js() {
-	echo '<script type="text/javascript" src="' . plugins_url( "js/jquery.flexslider-min.js" , __FILE__ ) . '"></script>' . "\n";
+	wp_enqueue_script('jquery');
+	wp_enqueue_script('jquery.flexslider-min',plugins_url('js/jquery.flexslider-min.js', __FILE__),array('jquery'),false,false);
 
 	//管理画面でサムネイル有りを選択した場合
 	if(get_option('flexslidergallery_slider')==1){
-		echo '<script type="text/javascript" src="' . plugins_url( "js/flexslider-thumbsilider.js" , __FILE__ ) . '"></script>' . "\n";
+	wp_enqueue_script('flexslider-thumbsilider',plugins_url('js/flexslider-thumbsilider.js', __FILE__),array('jquery'),false,false);
 
 	//管理画面でサムネイルなしを選択した場合
 	}elseif(get_option('flexslidergallery_slider')==2){
-		echo '<script type="text/javascript" src="' . plugins_url( "js/flexslider-basicslider.js" , __FILE__ ) . '"></script>' . "\n";
+	wp_enqueue_script('flexslider-basicslider',plugins_url('js/flexslider-basicslider.js', __FILE__),array('jquery'),false,false);
 	}
-echo '<link rel="stylesheet" href="' . plugins_url( "css/flexslider.css" , __FILE__ ) . '" type="text/css" media="screen" />' . "\n";
 }
-add_action('wp_head','add_flexslider_js');
+function add_flexslider_css(){
+	wp_register_style( 'flexslider', plugins_url('css/flexslider.css', __FILE__),'screen' );
+	wp_enqueue_style('flexslider');
+}
+add_action('wp_enqueue_scripts','add_flexslider_js');
+add_action('wp_enqueue_scripts','add_flexslider_css');
 
 //プラグイン設定画面get_option('flexslidergallery_slider')
 // 設定の初期値を保存
@@ -207,7 +155,7 @@ register_activation_hook(__FILE__, 'flexslidergallery_init_options');
 
 // 「プラグイン」メニューのサブメニュー
 function flexslidergallery_add_admin_menu() {
-	add_submenu_page('plugins.php', 'flexslidergalleryの設定', 'flexslidergalleryの設定', 8, __FILE__, 'flexslidergallery_admin_page');
+	add_submenu_page('options-general.php', 'flexslidergalleryの設定', 'flexslidergalleryの設定', activate_plugins, __FILE__, 'flexslidergallery_admin_page');
 }
 add_action('admin_menu', 'flexslidergallery_add_admin_menu');
 
