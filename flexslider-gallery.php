@@ -180,4 +180,94 @@ echo '<link rel="stylesheet" href="' . plugins_url( "css/flexslider.css" , __FIL
 }
 add_action('wp_head','add_flexslider_js');
 
+?>"\n";
+		echo '<div id="carousel" class="flexslider">' . "\n";
+		flexslider_gallery_thumb($post->ID);
+		echo '</div>' . "\n";
+	}elseif(get_option('flexslidergallery_slider')==2){
+		echo '<div class="flexslider">' . "\n";
+		flexslider_gallery_main($post->ID);
+		echo '</div>' . "\n";
+	}
+	echo '</div>' . "\n";
+}
+
+/* ==================================================
+■ヘッダーにソース
+ ================================================== */
+function add_flexslider_js() {
+	echo '<script type="text/javascript" src="' . plugins_url( "js/jquery.flexslider-min.js" , __FILE__ ) . '"></script>' . "\n";
+
+	//管理画面でサムネイル有りを選択した場合
+	if(get_option('flexslidergallery_slider')==1){
+		echo '<script type="text/javascript" src="' . plugins_url( "js/flexslider-thumbsilider.js" , __FILE__ ) . '"></script>' . "\n";
+
+	//管理画面でサムネイルなしを選択した場合
+	}elseif(get_option('flexslidergallery_slider')==2){
+		echo '<script type="text/javascript" src="' . plugins_url( "js/flexslider-basicslider.js" , __FILE__ ) . '"></script>' . "\n";
+	}
+echo '<link rel="stylesheet" href="' . plugins_url( "css/flexslider.css" , __FILE__ ) . '" type="text/css" media="screen" />' . "\n";
+}
+add_action('wp_head','add_flexslider_js');
+
+//プラグイン設定画面get_option('flexslidergallery_slider')
+// 設定の初期値を保存
+function flexslidergallery_init_options() {
+	// 初期化の処理を行う
+	if (!get_option('flexslidergallery_installed')) {
+		update_option('flexslidergallery_slider', 1);
+	}
+}
+register_activation_hook(__FILE__, 'flexslidergallery_init_options');
+
+// 「プラグイン」メニューのサブメニュー
+function flexslidergallery_add_admin_menu() {
+	add_submenu_page('plugins.php', 'flexslidergalleryの設定', 'flexslidergalleryの設定', 8, __FILE__, 'flexslidergallery_admin_page');
+}
+add_action('admin_menu', 'flexslidergallery_add_admin_menu');
+
+// 設定画面の表示
+function flexslidergallery_admin_page() {
+
+
+	// 「変更を保存」ボタンがクリックされたときは、設定を保存する
+	if ($_POST['posted'] == 'Y') {
+		update_option('flexslidergallery_slider', intval($_POST['slider']));
+	}
+?>
+<?php if($_POST['posted'] == 'Y') : ?><div class="updated"><p><strong>設定を保存しました</strong></p></div><?php endif; ?>
+<div class="wrap">
+	<h2>flexslidergalleryの設定</h2>
+	<form method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+		<input type="hidden" name="posted" value="Y">
+		<table class="form-table">
+			<tr valign="top">
+				<th scope="row"><label for="slider">表示タイプ<label></th>
+				<td>
+					<select name="slider" id="slider">
+					<?php
+						$options = array(
+							array('value' => '1', 'text' => 'サムネイル付き'),
+							array('value' => '2', 'text' => 'サムネイルなし'),
+						);
+						foreach ($options as $option) : ?>
+						<option value="<?php echo esc_attr($option['value']); ?>"<?php if (get_option('flexslidergallery_slider') == $option['value']) : ?> selected="selected"<?php endif; ?>><?php echo esc_attr($option['text']); ?></option>
+					<?php endforeach; ?>
+					</select>
+				</td>
+			</tr>
+		</table>
+
+		<p class="submit">
+			<input type="submit" name="Submit" class="button-primary" value="変更を保存" />
+		</p>
+	</form>
+	<h2>プラグインの使い方</h2>
+	<p>テーマ内の表示したい箇所に下記のソースを表示してください。<br>
+	&lt;?php add_flexslider_gallery(); ?&gt;
+	</p>
+
+</div>
+<?php
+}
 ?>
