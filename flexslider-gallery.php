@@ -206,14 +206,14 @@ function flexslidergallery_admin_page() {
 			<tr valign="top">
 				<th scope="row"><label for="MediumImgSize"><?php echo __( 'ギャラリーのサムネイル画像の中サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
-				<input name="MediumImgSize" type="text" id="MediumImgSize" value="<?php echo esc_attr(get_option('flexslidergallery_MediumImgSize')); ?>" class="regular-text code" /><br />※画像サイズの縦横は同サイズになります。
+				<input name="MediumImgSize" type="text" id="MediumImgSize" value="<?php echo esc_attr($flexsilder_mediumimg); ?>" class="regular-text code" /><br />※画像サイズの縦横は同サイズになります。
 				</td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row"><label for="SmallImgSize"><?php echo __( 'ギャラリーのサムネイル画像の小サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
-					<input name="SmallImgSize" type="text" id="SmallImgSize" value="<?php echo esc_attr(get_option('flexslidergallery_SmallImgSize')); ?>" class="regular-text code" /><br />
+					<input name="SmallImgSize" type="text" id="SmallImgSize" value="<?php echo esc_attr($flexsilder_smallimg); ?>" class="regular-text code" /><br />
 					※画像サイズの縦横は同サイズになります。
 				</td>
 			</tr>
