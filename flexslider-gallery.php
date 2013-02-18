@@ -14,9 +14,9 @@ load_plugin_textdomain( 'flexslidergallery', false, dirname( plugin_basename( __
 /* ==================================================
 ■ギャラリー画像専用の画像サイズ設定
  ================================================== */
-add_image_size( 'single-post-thumbnail', get_option('flexslidergallery_MainImgSize'), get_option('flexslidergallery_MainImgSize')); //大画像設定
-add_image_size( 'top-post-thumbnail', get_option('flexslidergallery_MediumImgSize'), get_option('flexslidergallery_MediumImgSize'), true); // 中画像サイズ設定
-add_image_size( 'mini-thumbnail', get_option('flexslidergallery_SmallImgSize'), get_option('flexslidergallery_SmallImgSize'), true);//ミニサムネイル画像設定
+add_image_size( 'single-post-thumbnail', $flexsilder_mainimg, $flexsilder_mainimg); //大画像設定
+add_image_size( 'top-post-thumbnail', $flexsilder_mediumimg, $flexsilder_mediumimg, true); // 中画像サイズ設定
+add_image_size( 'mini-thumbnail', $flexsilder_smallimg, $flexsilder_smallimg, true);//ミニサムネイル画像設定
 
 /* ==================================================
 ■サムネイル画像とメイン画像の表示ソース
