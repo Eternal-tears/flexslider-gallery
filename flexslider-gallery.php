@@ -173,7 +173,10 @@ function flexslidergallery_admin_page() {
 		update_option('flexslidergallery_SmallImgSize', $flexsilder_smallimg);
 	}
 ?>
-<?php if($_POST['posted'] == 'Y') : ?><div class="updated"><p><strong>設定を保存しました</strong></p></div><?php endif; ?>
+
+<?php if($_POST['posted'] == 'Y') : ?>
+	<div class="updated"><p><strong><?php echo __( '設定を保存しました', 'flexslidergallery' ); ?></strong></p></div>
+<?php endif; ?>
 <div class="wrap">
 	<h2><?php echo __( 'flexslidergalleryの設定', 'flexslidergallery' ); ?></h2>
 	<form method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
@@ -199,14 +202,15 @@ function flexslidergallery_admin_page() {
 				<th scope="row"><label for="MainImgSize"><?php echo __( 'ギャラリーのメイン画像サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
 					<input name="MainImgSize" type="text" id="MainImgSize" value="<?php echo esc_attr($flexsilder_mainimg); ?>" class="regular-text code" /><br />
-					※画像サイズの縦横は同サイズになります。
+					<?php echo __( '※画像サイズの縦横は同サイズになります。', 'flexslidergallery' ); ?>
 				</td>
 			</tr>
 
 			<tr valign="top">
 				<th scope="row"><label for="MediumImgSize"><?php echo __( 'ギャラリーのサムネイル画像の中サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
-				<input name="MediumImgSize" type="text" id="MediumImgSize" value="<?php echo esc_attr($flexsilder_mediumimg); ?>" class="regular-text code" /><br />※画像サイズの縦横は同サイズになります。
+				<input name="MediumImgSize" type="text" id="MediumImgSize" value="<?php echo esc_attr($flexsilder_mediumimg); ?>" class="regular-text code" /><br />
+				<?php echo __( '※画像サイズの縦横は同サイズになります。', 'flexslidergallery' ); ?>
 				</td>
 			</tr>
 
@@ -214,7 +218,7 @@ function flexslidergallery_admin_page() {
 				<th scope="row"><label for="SmallImgSize"><?php echo __( 'ギャラリーのサムネイル画像の小サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
 					<input name="SmallImgSize" type="text" id="SmallImgSize" value="<?php echo esc_attr($flexsilder_smallimg); ?>" class="regular-text code" /><br />
-					※画像サイズの縦横は同サイズになります。
+				<?php echo __( '※画像サイズの縦横は同サイズになります。', 'flexslidergallery' ); ?>
 				</td>
 			</tr>
 		</table>
