@@ -20,6 +20,10 @@ flexsliderを使用したWordPressのプラグインです。
 
 + <a href="http://www.woothemes.com/flexslider/" target="_blank">jQuery FlexSlider v2.0</a>
 
+謝辞
+-----
+<a href="http://www.warna.info/" target="_blank">まがりん</a>にソースビューしていただきました。
+
 ライセンス
 ------
 
