@@ -144,17 +144,6 @@ add_action('wp_enqueue_scripts','add_flexslider_js');
 add_action('wp_enqueue_scripts','add_flexslider_css');
 
 //プラグイン設定画面get_option('flexslidergallery_slider')
-// 設定の初期値を保存
-function flexslidergallery_init_options() {
-	// 初期化の処理を行う
-	if (!get_option('flexslidergallery_installed')) {
-		update_option('flexslidergallery_slider', 1);
-		update_option('flexslidergallery_MainImgSize', 348);
-		update_option('flexslidergallery_MediumImgSize', 148);
-		update_option('flexslidergallery_SmallImgSize', 58);
-	}
-}
-register_activation_hook(__FILE__, 'flexslidergallery_init_options');
 
 // 「プラグイン」メニューのサブメニュー
 function flexslidergallery_add_admin_menu() {
@@ -165,13 +154,23 @@ add_action('admin_menu', 'flexslidergallery_add_admin_menu');
 // 設定画面の表示
 function flexslidergallery_admin_page() {
 
+	$flexsilder_slider = get_option('flexslidergallery_slider',1);
+	$flexsilder_mainimg = get_option('flexslidergallery_MainImgSize',348);
+	$flexsilder_mediumimg = get_option('flexslidergallery_MediumImgSize',148);
+	$flexsilder_smallimg = get_option('flexslidergallery_SmallImgSize',58);
 
 	// 「変更を保存」ボタンがクリックされたときは、設定を保存する
 	if ($_POST['posted'] == 'Y') {
-		update_option('flexslidergallery_slider', intval($_POST['slider']));
-		update_option('flexslidergallery_MainImgSize', stripslashes($_POST['MainImgSize']));
-		update_option('flexslidergallery_MediumImgSize', stripslashes($_POST['MediumImgSize']));
-		update_option('flexslidergallery_SmallImgSize', stripslashes($_POST['SmallImgSize']));
+
+		$flexsilder_slider = intval($_POST['slider']);
+		$flexsilder_mainimg = stripslashes($_POST['MainImgSize']);
+		$flexsilder_mediumimg = stripslashes($_POST['MediumImgSize']);
+		$flexsilder_smallimg = stripslashes($_POST['SmallImgSize']);
+
+		update_option('flexslidergallery_slider', $flexsilder_slider);
+		update_option('flexslidergallery_MainImgSize', $flexsilder_mainimg);
+		update_option('flexslidergallery_MediumImgSize', $flexsilder_mediumimg);
+		update_option('flexslidergallery_SmallImgSize', $flexsilder_smallimg);
 	}
 ?>
 <?php if($_POST['posted'] == 'Y') : ?><div class="updated"><p><strong>設定を保存しました</strong></p></div><?php endif; ?>
@@ -190,7 +189,7 @@ function flexslidergallery_admin_page() {
 							array('value' => '2', 'text' => __( 'サムネイルなし', 'flexslidergallery' )),
 						);
 						foreach ($options as $option) : ?>
-						<option value="<?php echo esc_attr($option['value']); ?>"<?php if (get_option('flexslidergallery_slider') == $option['value']) : ?> selected="selected"<?php endif; ?>><?php echo esc_attr($option['text']); ?></option>
+						<option value="<?php echo esc_attr($option['value']); ?>"<?php if ($flexsilder_slider == $option['value']) : ?> selected="selected"<?php endif; ?>><?php echo esc_attr($option['text']); ?></option>
 					<?php endforeach; ?>
 					</select>
 				</td>
@@ -199,7 +198,7 @@ function flexslidergallery_admin_page() {
 			<tr valign="top">
 				<th scope="row"><label for="MainImgSize"><?php echo __( 'ギャラリーのメイン画像サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
-					<input name="MainImgSize" type="text" id="MainImgSize" value="<?php echo esc_attr(get_option('flexslidergallery_MainImgSize')); ?>" class="regular-text code" /><br />
+					<input name="MainImgSize" type="text" id="MainImgSize" value="<?php echo esc_attr($flexsilder_mainimg); ?>" class="regular-text code" /><br />
 					※画像サイズの縦横は同サイズになります。
 				</td>
 			</tr>
