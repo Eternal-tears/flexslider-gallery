@@ -201,7 +201,7 @@ function flexslidergallery_admin_page() {
 			<tr valign="top">
 				<th scope="row"><label for="MainImgSize"><?php echo __( 'ギャラリーのメイン画像サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
-					<input name="MainImgSize" type="text" id="MainImgSize" value="<?php echo esc_attr($flexsilder_mainimg); ?>" class="regular-text code" /><br />
+					<input name="MainImgSize" type="number" id="MainImgSize" value="<?php echo esc_attr($flexsilder_mainimg); ?>" class="small-text" /><br />
 					<?php echo __( '※画像サイズの縦横は同サイズになります。', 'flexslidergallery' ); ?>
 				</td>
 			</tr>
@@ -209,7 +209,7 @@ function flexslidergallery_admin_page() {
 			<tr valign="top">
 				<th scope="row"><label for="MediumImgSize"><?php echo __( 'ギャラリーのサムネイル画像の中サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
-				<input name="MediumImgSize" type="text" id="MediumImgSize" value="<?php echo esc_attr($flexsilder_mediumimg); ?>" class="regular-text code" /><br />
+				<input name="MediumImgSize" type="number" id="MediumImgSize" value="<?php echo esc_attr($flexsilder_mediumimg); ?>" class="small-text" /><br />
 				<?php echo __( '※画像サイズの縦横は同サイズになります。', 'flexslidergallery' ); ?>
 				</td>
 			</tr>
@@ -217,7 +217,7 @@ function flexslidergallery_admin_page() {
 			<tr valign="top">
 				<th scope="row"><label for="SmallImgSize"><?php echo __( 'ギャラリーのサムネイル画像の小サイズ', 'flexslidergallery' ); ?><label></th>
 				<td>
-					<input name="SmallImgSize" type="text" id="SmallImgSize" value="<?php echo esc_attr($flexsilder_smallimg); ?>" class="regular-text code" /><br />
+					<input name="SmallImgSize" type="number" id="SmallImgSize" value="<?php echo esc_attr($flexsilder_smallimg); ?>" class="small-text" /><br />
 				<?php echo __( '※画像サイズの縦横は同サイズになります。', 'flexslidergallery' ); ?>
 				</td>
 			</tr>
