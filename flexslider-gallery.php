@@ -26,7 +26,7 @@ function flexslider_gallery_thumb() {
 
 	$flexslidergalleryoutput = '';
 
-	$images = get_posts(array(
+	$fgimages = get_posts(array(
 		'post_parent' => $post->ID,
 		'post_type' => 'attachment',
 		'post_mime_type' => 'image',
@@ -35,8 +35,8 @@ function flexslider_gallery_thumb() {
 		'posts_per_page' => -1
 	));
 
-	foreach ($images as $image) {
-		$thumb_attributes = wp_get_attachment_image_src($image->ID,'top-post-thumbnail');
+	foreach ($fgimages as $fimage) {
+		$fgthumb_attributes = wp_get_attachment_image_src($fimage->ID,'top-post-thumbnail');
 
 //echo '<pre>';
 //var_dump($thumb_attributes);
@@ -45,9 +45,9 @@ function flexslider_gallery_thumb() {
 		//サムネイル画像の表示部分
 		$flexslidergalleryoutput .= '<li>';
 		$flexslidergalleryoutput .= '<img';
-		$flexslidergalleryoutput .= ' src="' . esc_attr($thumb_attributes[0]) . '"';
-		$flexslidergalleryoutput .= ' width="' . esc_attr($thumb_attributes[1]) . '"';
-		$flexslidergalleryoutput .= ' height="' . esc_attr($thumb_attributes[2]) . '"';
+		$flexslidergalleryoutput .= ' src="' . esc_attr($fgthumb_attributes[0]) . '"';
+		$flexslidergalleryoutput .= ' width="' . esc_attr($fgthumb_attributes[1]) . '"';
+		$flexslidergalleryoutput .= ' height="' . esc_attr($fgthumb_attributes[2]) . '"';
 		$flexslidergalleryoutput .= ' /></li>' . "\n";
 
 	}
@@ -66,7 +66,7 @@ function flexslider_gallery_main(){
 
 	$flexslidergalleryoutput = '';
 
-	$images = get_posts(array(
+	$fmimages = get_posts(array(
 		'post_parent' => $post->ID,
 		'post_type' => 'attachment',
 		'post_mime_type' => 'image',
@@ -75,7 +75,7 @@ function flexslider_gallery_main(){
 		'posts_per_page' => -1
 	));
 
-	foreach ($images as $image) {
+	foreach ($fmimages as $image) {
 		$mainimg_attributes = wp_get_attachment_image_src($image->ID,'single-post-thumbnail');
 
 		//メイン画像の表示部分
@@ -90,8 +90,8 @@ function flexslider_gallery_main(){
 
 	if (!empty($flexslidergalleryoutput)) {
 		$flexslidergalleryoutput = '<ul class="slides">' . "\n"
-			  . $flexslidergalleryoutput
-			  . '</ul>' . "\n";
+			. $flexslidergalleryoutput
+			. '</ul>' . "\n";
 	}
 		echo $flexslidergalleryoutput;
 }
